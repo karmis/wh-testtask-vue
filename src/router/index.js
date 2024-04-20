@@ -1,6 +1,5 @@
 import { createRouter, createWebHistory } from "vue-router";
 // import HomeView from "../views/HomeView.vue";
-import AdsList from "@/components/AdList.vue";
 import AdList from "@/components/AdList.vue";
 import AdItem from "@/components/AdItem.vue";
 import AdNew from "@/components/AdNew.vue";

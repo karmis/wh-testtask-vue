@@ -1,0 +1,13 @@
+body {
+  font-family: monospace;
+  background: #eee;
+
+  .page-item, .page-link {
+    color: #222;
+    background: #eee;
+
+    &.active {
+      background: #ffc107;
+    }
+  }
+}

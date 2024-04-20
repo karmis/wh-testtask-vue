@@ -1,36 +1,50 @@
 <template>
   <div class="ad-new">
-            <div>
-              <h2>Создать объявление</h2>
-              <form @submit.prevent="createAd">
-                <div class="form-group">
-                  <label>Название</label>
-                  <input v-model="newAd.title" class="form-control">
-                </div>
-                <div class="form-group">
-                  <label>Описание</label>
-                  <textarea v-model="newAd.description" class="form-control"></textarea>
-                </div>
-                <div class="form-group">
-                  <label>Цена</label>
-                  <input v-model="newAd.price" type="number" class="form-control">
-                </div>
-                <div class="form-group">
-                  <label>Main Photo</label>
-                  <input v-model="newAd.photo" type="text" class="form-control">
+    <form @submit.prevent="createAd">
+            <div class="card">
+              <div class="card-body">
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1">Title: </span>
+                  <input type="text" class="form-control" placeholder="Title" v-model="newAd.title" >
                 </div>
 
-                <div class="form-group">
-                  <label>More Photos</label>
-                  1 - <input v-model="newAd.photos[0]" type="text" class="form-control">
-                  2 - <input v-model="newAd.photos[1]" type="text" class="form-control">
-                  3 - <input v-model="newAd.photos[2]" type="text" class="form-control">
+                <div class="input-group mb-3">
+                  <span class="input-group-text">Description</span>
+                  <textarea class="form-control" v-model="newAd.description"></textarea>
                 </div>
-                <button type="submit" class="btn btn-success">Создать</button>
-              </form>
+
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1">Price: </span>
+                  <input class="form-control" v-model="newAd.price" type="number">
+                </div>
+
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1">Main Photo: </span>
+                  <input class="form-control" v-model="newAd.photo" type="text">
+                </div>
+
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1">Additional photo 1: </span>
+                  <input class="form-control" v-model="newAd.photos[0]" type="text">
+                </div>
+
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1">Additional photo 2: </span>
+                  <input class="form-control" v-model="newAd.photos[1]" type="text">
+                </div>
+
+                <div class="input-group mb-3">
+                  <span class="input-group-text" id="basic-addon1">Additional photo 3: </span>
+                  <input class="form-control" v-model="newAd.photos[2]" type="text">
+                </div>
+
+
+                <div class="container d-flex align-items-center justify-content-center mt-5 ">
+                  <button type="submit" class="btn btn-warning">Create</button>
+                </div>
+              </div>
             </div>
-
-
+    </form>
   </div>
 </template>
 
@@ -43,7 +57,7 @@
 
 <script>
 import axios from "axios";
-import { useRoute } from "vue-router";
+import router from "@/router";
 
 export default {
   data() {
@@ -59,14 +73,15 @@ export default {
       }
     };
   },
-  async created() {
-    await this.fetchAd();
-  },
   methods: {
     async createAd() {
       try {
-        await axios.post('http://127.0.0.1:8000/api/ad', this.newAd);
+        const resp = await axios.post('http://127.0.0.1:8000/api/ad', this.newAd);
         this.newAd = {title: '', description: '', price: 0, photo: '', photos: ['', '', '']};
+        debugger;
+        await router.push({name: 'item',   params: {
+            id: resp.data.id
+          }})
       } catch (error) {
         console.error(error);
       }
